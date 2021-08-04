@@ -1,41 +1,50 @@
 import re
+from nltk import tokenize
+from bltk.langtools import Tokenizer as BengaliTokenizer
 from sklearn.model_selection import train_test_split
 
 def raw_preprocess(LANG):
-    """
-    Objective: 
-        preprocess the raw data so that it is ready for sentencepiece. In other words, the preprocessed data must have each sentence on one separated line.
-
-    Assumptions:
-        - Two-or-more end-of-line symbols (i.e. '\n\n') signify the separation of two paragraphs.
-        - No single sentence resides in more than one paragraph.
-        - We are allowed to use nltk for sentence-tokenization. The function from nltk (nltk.tokenize.sent_tokenize) is sufficient for the task.
-        - There is no situation where double-space (i.e. '  ') makes sense, so we contract all sequences of more than one space into a space character (i.e. from the regex point of view, ' +' is substituted with ' ').
-
-    Operations:
-        - Get a list of paragraphs by splitting the text by at-least-2 consecutive end-of-line characters (i.e. '\n{2,}').
-        - For each paragraph:
-            + Replace all end-of-line characters with a space.
-            + Contract all sequences of more than one space into a space character.
-            + Tokenizer into sentences.
-        - Collect all sentences from all paragraphs as a list and return.
-
-    Input:
+    """ 
+    Preprocesses the raw data so that it is ready for sentencepiece. In other words, the 
+    preprocessed data must have each sentence on one separated line.
+    
+    Parameters:
         LANG: the config for input language.
 
-    Output:
+    Return:
         a list of extracted sentences.
     """
     raw_text_path = LANG.raw_text_path
-    sentences = []
 
     # Read raw text file.
     with open(raw_text_path) as f:
         text = f.read()
-    
-    # Get a list of paragraphs by splitting the text by at-least-2 consecutive end-of-line characters (i.e. '\n{2,}').
+    # Get a list of paragraphs by splitting the text by at-least-2 
+    # consecutive end-of-line characters (i.e. '\n{2,}').
     paragraphs = re.split(r'\n{2,}', text)
 
+    # Apply preprocessing 
+    if LANG.name == 'en':
+        sentences = _raw_preprocess_english(paragraphs)
+    elif LANG.name == 'bn':
+        sentences = _raw_preprocess_bengali(paragraphs)
+    else: 
+        raise ValueError('preprocessing for this language is  not implemented')
+
+    return sentences
+
+def _raw_preprocess_english(paragraphs):
+    """
+    Preprocesses a list of paragraphs of the English corpus.
+
+    Parameters:
+       paragraphs: list of paragraphs
+
+    Returns:
+        a list of extracted sentences.
+    """
+    sentences = []
+    
     # Extract sentences from each paragraph.
     for paragraph in paragraphs:
         # Replace all end-of-line characters with a space.
@@ -43,8 +52,37 @@ def raw_preprocess(LANG):
         # Contract all sequences of more than one space into a space character.
         paragraph = re.sub(r' +', ' ', paragraph).strip()
         # Tokenizer into sentences.
-        paragraph_sentences = LANG.sent_tokenize(paragraph)
+        paragraph_sentences = tokenize.sent_tokenize(paragraph, language='english')
         # Collect all sentences from all paragraphs.
+        sentences.extend(paragraph_sentences)
+
+    return sentences
+
+def _raw_preprocess_bengali(paragraphs):
+    """ 
+   Preprocesses a list of paragraphs of the Bengali corpus.
+    
+    Parameters:
+        paragraphs: list of paragraphs
+
+    Returns:
+        a list of extracted sentences 
+    """
+    sentences = []
+    
+    for paragraph in paragraphs:
+        # Remove HTML tags
+        paragraph = re.sub('<.*?>', '', paragraph)
+        # Substitute two or more exclamations/interrogations/full stops by a single one
+        paragraph = re.sub(r'\?{2,}', '?', paragraph)
+        paragraph = re.sub(r'\!{2,}', '!', paragraph)
+        paragraph = re.sub(r'।{2,}', '|', paragraph)    
+        # Remove English text 
+        paragraph = re.sub(r'[a-zA-Z]', '', paragraph)    
+        # Tokenize into sentences
+        tokenizer = BengaliTokenizer()
+        paragraph_sentences = tokenizer.sentence_tokenizer(paragraph)
+        # Collect all sentences from all paragraphs
         sentences.extend(paragraph_sentences)
 
     return sentences
