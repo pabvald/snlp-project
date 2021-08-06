@@ -133,5 +133,4 @@ dmypy.json
 .neptune
 
 # Customize
-rnnlm/
 rnnlm-0.3e
