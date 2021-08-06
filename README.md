@@ -61,7 +61,7 @@ a. Small vocabulary:
 
 For small vocabulary sizes (from 100 to 800), the corresponding description length (or total file size) is shown in the figure below. The smallest description length belongs to the vocabulary size of 500.
 
-![figures/Task2.3.small_vocab_file_size.png](figures/Task2.3.small_vocab_file_size.png)
+![figures/Task2.3.small_vocab_file_size.png](figures/en_task2.3_small_vocab_file_size.png)
 
 One interesting observation is that the description length decreases sharply from vocabulary size of 100 to 200. For a qualitative evalution, let us look at an examplar sentence:
 
@@ -93,7 +93,7 @@ b. Large vocabulary
 
 For large vocabulary sizes (from 1500 to 3000), we apply the same procedure as described. The description lengths corresponding to different sizes are shown below: 
 
-![figures/Task2.3.large_vocab_file_size.png](figures/Task2.3.large_vocab_file_size.png)
+![figures/Task2.3.large_vocab_file_size.png](figures/en_task2.3_large_vocab_file_size.png)
 
 It can be observed from the figure that the larger the vocabulary size, the longer the description length. We suspect that this is because 1500 is already bigger than the optimal size, thus adding more tokens only makes things worse. For the purposes of the next tasks, we will use the size of 1500 for the large vocabulary size.
 
@@ -129,15 +129,37 @@ To cover a wide range of hyperparameter values, we employ grid search.
 **Operations**:
 
 For each model, we do grid search on 3 hyperparameters: 
-- hidden: the number of neurons in the hidden layer,
-- bptt: the number of steps in time that error is backpropagated,
-- class: the number of classes for class-based LM.
+- `hidden`: the number of neurons in the hidden layer,
+- `bptt`: the number of steps in time that error is backpropagated,
+- `class`: the number of classes for class-based LM.
 
 The exact list of values for each hyperparameters can be seen in the code.
 
 **Observations**:
 
+
 **Results**:
+
+The following plot shows how the perplexity of the model varies when changing each of the hyperparameters, while leaving the rest fixed. 
+
+![figures/en_task3.png](figures/en_task3.png)
+
+
+The first plot shows the perplexity values for different sizes of the `hidden` layer of the RNNLM for a fixed value of `bptt` and `class`. In all cases, increasing the number of hidden layers gives a lower (better) perplexity. For `s1`and `s2`, changing from 5 to 20 hidden neurons implies a huge decrease.
+
+The second plot shows how the perplexity varies with `bptt`. In general, we can see that this hyperparameter only has a relevant impact for the vocabulary size `s1`, for which `0` provides a significantly lower perplexity.
+
+The variation of the perplexity for different values of `class` is shown in the third plot. From 100, increasing the number of classes reduces the perplexity for the three vocabulary sizes.
+
+
+The configurations of hyperparameters that minimize the perplexity of the model for each vocabulary size are: 
+| vocab | hidden | bptt | class |
+|-------|--------|------|-------|
+| s1    | 100    | 3    | 1501  |
+| s2    | 100    | 3    | 1501  |
+| s3    | 40     | 0    | 1501  |
+
+
 
 ## B. Bengali
 
@@ -156,6 +178,6 @@ The exact list of values for each hyperparameters can be seen in the code.
 - For each paragraph:
     + Substitute two or more exclamations/interrogations/full stops by a single one
     + Remove HTML tags
-    + Remove text in English
+    + Remove text in English (https://piazza.com/class/kniwgq42qek5oe?cid=175)
     + Split text in sentences using the [bltk library](https://github.com/saimoncse19/bltk)
 - Collect all sentences from all paragraphs as a list and return.
