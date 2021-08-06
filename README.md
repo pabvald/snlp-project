@@ -110,6 +110,35 @@ It can be observed from the figure that the larger the vocabulary size, the long
     - decode the encoded text, verify that the decoded text is the same as the original training data to ensure the correctness of the model.
     - apply the same encoding, decoding operations on the test data.    
 
+### 3. Language Model training
+
+#### Baseline models
+
+The table below shows the baseline validation perplexity for 3 models on the default hyperparameters:
+
+| s1 (character-granularity)       | s2 (vocab size 500)    | s3 (vocab size 1500)    |
+| :------------- | :----------: | -----------: |
+|  5.257669 | 33.814382   | 85.886606   |
+
+#### Experiments
+
+**Approach**:
+
+To cover a wide range of hyperparameter values, we employ grid search.
+
+**Operations**:
+
+For each model, we do grid search on 3 hyperparameters: 
+- hidden: the number of neurons in the hidden layer,
+- bptt: the number of steps in time that error is backpropagated,
+- class: the number of classes for class-based LM.
+
+The exact list of values for each hyperparameters can be seen in the code.
+
+**Observations**:
+
+**Results**:
+
 ## B. Bengali
 
 ### 1. Data Preparation - Preprocessing 
