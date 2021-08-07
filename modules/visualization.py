@@ -1,8 +1,35 @@
-import pickle
 import matplotlib.pyplot as plt 
+import matplotlib.ticker as mticker
 
 from config import seg_profiles, visualization_conf, figures_path
 from typing import List, Dict, Any
+
+
+def plot_model_sizes(vocab_size: List[int], file_size: List[int], title: str="", save_path: str=None):
+    """ Plot a bar plot of the total file size vs. the vocabulary size
+    :param vocab_size: vocabulary sizes
+    :param file_size: file sizes
+    :param title: title of the plot
+    :param save_path: path to save the plot
+    """
+    fig = plt.figure(figsize=(10,5))
+    ax = fig.add_axes([0,0,1,1])
+
+    rects1 = ax.bar(vocab_size, file_size, width=70)
+    ax.set_ylim([3900000, 4400000])
+    ax.set_title(title)
+    ax.set_ylabel("Total file size")
+    ax.set_xlabel("Vocabulary size")
+    ax.set_xticks(vocab_size)
+    ax.bar_label(rects1, padding=3, rotation='vertical', fmt='%d')
+
+    ax.yaxis.set_major_formatter(mticker.ScalarFormatter())
+    ax.yaxis.get_major_formatter().set_scientific(False)
+    ax.yaxis.get_major_formatter().set_useOffset(False)
+    plt.show()
+
+    if save_path is not None:
+        fig.savefig(save_path)
 
 def plot_grid_results(grid_results:Dict, save_path:str=None):
     """ Plot the perplexity evolution of the three models for 

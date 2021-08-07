@@ -14,6 +14,20 @@ Email id 2: pava00001@stud.uni-saarland.de<br/>
 
 ## A. English 
 
+### 0. Language overview
+Some characteristics of the English language are:
+
+- Native speakers: around 360 million
+- Language family: 	Indo-European > Germanic > West Germanic > Ingvaeonic > Anglo-Frisian > Anglic > English
+- Vocabulary size: 170,000 words, or 220,000 if obsolete words are counted.
+- Writing system: 
+    + written in [Latin alphabet](https://en.wikipedia.org/wiki/Latin_alphabet)
+    + 26 letters, plus their corresponding capital form
+    + 14 puntuaction marks
+- Phonology: 
+    + 24 consonant phonemes
+    + pronunciation of vowels varies a great deal between dialects 
+
 ### 1. Data Preparation - Preprocessing 
 
 **Assumptions**:
@@ -173,6 +187,20 @@ The configurations of hyperparameters that minimize the perplexity of the model 
 
 ## B. Bengali
 
+### 0. Language overview
+Some characteristics of the Bengali language are:
+
+- Native speakers: around 230 million
+- Language family: Indo-European > Indo-Iranian > Indo-Aryan > Eastern Zone > Bengali-Assamese > Bengali
+- Vocabulary size: 100,000 separate words
+- Writing system: 
+    + written in [Bengali  alphabet](https://en.wikipedia.org/wiki/Bengali_alphabet), a part of the [Bengali–Assamese script](https://en.wikipedia.org/wiki/Bengali%E2%80%93Assamese_script). It is an [abugida](https://en.wikipedia.org/wiki/Abugida), a segmental writing system in which consonant-vowel sequences are written as units; each unit is based on a consonant letter, and vowel notation is secondary. 
+    + Bengali punctuation marks, apart from the downstroke দাড়ি dari (।), the Bengali equivalent of a full stop, have been adopted from western scripts and their usage is similar
+- Phonology: 
+    + 29 consonants 
+    + 7 vowels, as well as 7 nasalised vowels
+
+
 ### 1. Data Preparation - Preprocessing 
 
 **Assumptions:**
@@ -188,6 +216,57 @@ The configurations of hyperparameters that minimize the perplexity of the model 
 - For each paragraph:
     + Substitute two or more exclamations/interrogations/full stops by a single one
     + Remove HTML tags
-    + Remove text in English (https://piazza.com/class/kniwgq42qek5oe?cid=175)
+    + Remove text in English  
     + Split text in sentences using the [bltk library](https://github.com/saimoncse19/bltk)
 - Collect all sentences from all paragraphs as a list and return.
+
+
+### 2. Subword Segmentation
+
+In this section, we work on 3 segmentation models with difference vocabulary sizes. The first one employs character-level segmentation, which is simply to treat each character as a token. In the rest of this section, we focus mostly on the other 2 models.
+
+#### 2.1. Experiments with vocabulary sizes
+
+There are 2 types of subword: small vocabulary size (i.e. usually from 100 to 800) and large vocabulary size (i.e. from 1500 to 3000). For each type, we do some experiments to choose an exact vocabulary size, which will be fixed for subsequent tasks.
+
+**Approach**:
+We use the same principle used with the English corpus to select the optimal vocabulary sizes: [Minimum Description Length (MDL)](https://en.wikipedia.org/wiki/Minimum_description_length).
+
+
+a. Small vocabulary 
+
+For small vocabulary sizes (from 100 to 800), the corresponding description length (or total file size) is shown in the figure below. Increasing the vocabulary size decreases the description length, being 800 the optimal vocabulary size within this range.
+
+![figures/bn_task2.3_small_vocab_file_size.png](figures/bn_task2.3_small_vocab_file_size.png)
+
+b. Large vocabulary
+For large vocabulary sizes (from 1500 to 3000), we repeat the procedure. The description lengths corresponding to different sizes are shown below:
+
+![figures/bn_task2.3_large_vocab_file_size.png](figures/bn_task2.3_large_vocab_file_size.png)
+
+The minimal description length is obtain for the vocabulary size 1700.
+
+
+
+#### 2.2. Training of Segmentation models
+
+**Operations**:
+- We train 3 segmentation models of different vocabulary sizes:
+    - character-level segmentation.
+    - small subword vocabulary size of 800.
+    - large subword vocabulary size of 1700.
+- For each vocabulary size, we:
+    - train a segmentation model.
+    - apply the model on the training data to get an encoded text.
+    - decode the encoded text, verify that the decoded text is the same as the original training data to ensure the correctness of the model.
+    - apply the same encoding, decoding operations on the test data.    
+
+### 3. Language Model training
+
+#### Baseline models
+
+The table below shows the baseline validation perplexity for 3 models on the default hyperparameters:
+
+| s1 (character-granularity)       | s2 (vocab size 500)    | s3 (vocab size 1500)    |
+| :------------- | :----------: | -----------: |
+|   |   |    |

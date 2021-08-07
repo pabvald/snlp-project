@@ -29,11 +29,18 @@ class Bengali(Language):
 
 # Segmentation Configurations
 SegmentationConf = namedtuple('SegmentationConf', 'id vocab_size model_type')
-seg_profiles = [
-    SegmentationConf('s1', None, 'char'), # segmentation by characters.
-    SegmentationConf('s2', 500, 'bpe'), # segmentation by subwords with small vocabulary.
-    SegmentationConf('s3', 1500, 'bpe'), # segmentation by subwords with large vocabulary.
-]
+seg_profiles = {
+    'en': [
+        SegmentationConf('s1', None, 'char'), # segmentation by characters.
+        SegmentationConf('s2', 500, 'bpe'), # segmentation by subwords with small vocabulary.
+        SegmentationConf('s3', 1500, 'bpe'), # segmentation by subwords with large vocabulary.
+    ],
+    'bn': [
+        SegmentationConf('s1', None, 'char'), # segmentation by characters.
+        SegmentationConf('s2', 800, 'bpe'), # segmentation by subwords with small vocabulary.
+        SegmentationConf('s3', 1700, 'bpe'), # segmentation by subwords with large vocabulary.
+    ]
+}
 
 # Training configurations
 TrainingConf = namedtuple('TrainingConf', 'hidden rand_seed debug bptt n_class')
