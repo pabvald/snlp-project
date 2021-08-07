@@ -49,9 +49,12 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     bptt_choices = sorted(list(bptt_choices))
     n_class_choices = sorted(list(n_class_choices))
 
+    # Extract maximum perplexity
+    max_perplexity = max(grid_results.values())
+
 
     # Plot the evolution for each hyper-parameter
-    fig, ax = plt.subplots(3, figsize=(5,15))
+    fig, ax = plt.subplots(ncols=3, figsize=(16,5))
     fig.subplots_adjust(hspace=.3)
     legend = [seg.id for seg in seg_profiles]
 
@@ -61,6 +64,7 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     ax[0].set_xlabel("# of hidden neurons")
     ax[0].set_xticks(hidden_choices)
     ax[0].set_ylabel("Perplexity")
+    ax[0].set_ylim(0, max_perplexity)
     ax[0].legend(legend)
 
 
@@ -69,13 +73,16 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     ax[1].set_xlabel("bptt")
     ax[1].set_xticks(bptt_choices)
     ax[1].set_ylabel("Perplexity")
+    ax[1].set_ylim(0, max_perplexity)
     ax[1].legend(legend)
 
     for seg in seg_profiles:
         ax[2].plot(n_class_choices, n_class_evolution[seg.id])
     ax[2].set_xlabel("class")
     ax[2].set_xticks(n_class_choices)
+    ax[2].set_xticklabels(n_class_choices, rotation=90)
     ax[2].set_ylabel("Perplexity")
+    ax[2].set_ylim(0, max_perplexity)
     ax[2].legend(legend)
 
     # Save figure if save_path is provided

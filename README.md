@@ -133,31 +133,30 @@ For each model, we do grid search on 3 hyperparameters:
 - `bptt`: the number of steps in time that error is backpropagated,
 - `class`: the number of classes for class-based LM.
 
-The exact list of values for each hyperparameters can be seen in the code.
+The exact list of values for each hyperparameters can be seen in the code. Note that for the `hidden`, we set an upperbound of 200 as suggested by the authors of the [rnnlm toolkit](http://www.fit.vutbr.cz/~imikolov/rnnlm/FAQ.txt) for small texts with less than 1M words. For the `class`, we set an upperbound of 1501, which is higher than the maximum vocabulary size we selected in the previous sections.
 
 **Observations**:
+
+The following plots show how the perplexity of the model varies when changing each of the hyperparameters, while leaving the rest fixed. 
+
+![figures/en_task3.png](figures/en_task3.png)
+
+The first plot shows the perplexity values for different sizes of the `hidden` layer of the RNNLM for a fixed value of `bptt` and `class`. In all cases, increasing the number of hidden layers gives a lower (better) perplexity. For `s1`and `s2`, changing from 5 to 20 hidden neurons implies a huge decrease. The intensity of change is lessened when there are more and more neurons. From 100 neurons onwards, the differences are negligible.
+
+The second plot shows how the perplexity varies with `bptt`. In general, this hyperparameter does not have a big impact to the perplexity. While for `s1` and `s2`, increasing `bptt` from 0 to 1 results in slightly better perplexities, the reverse is true for `s3`. Higher values of `bptt` then have almost no impact to the perplexity on average.
+
+The variation of the perplexity for different values of `class` is shown in the third plot. From 100, increasing the number of classes usually reduces the perplexity for the three vocabulary sizes. There is a trade-off between model performance and training speed: a higher value of `class` requires longer time to train but may result in a marginally better performance and vice versa.
 
 
 **Results**:
 
-The following plot shows how the perplexity of the model varies when changing each of the hyperparameters, while leaving the rest fixed. 
-
-![figures/en_task3.png](figures/en_task3.png)
-
-
-The first plot shows the perplexity values for different sizes of the `hidden` layer of the RNNLM for a fixed value of `bptt` and `class`. In all cases, increasing the number of hidden layers gives a lower (better) perplexity. For `s1`and `s2`, changing from 5 to 20 hidden neurons implies a huge decrease.
-
-The second plot shows how the perplexity varies with `bptt`. In general, we can see that this hyperparameter only has a relevant impact for the vocabulary size `s1`, for which `0` provides a significantly lower perplexity.
-
-The variation of the perplexity for different values of `class` is shown in the third plot. From 100, increasing the number of classes reduces the perplexity for the three vocabulary sizes.
-
-
 The configurations of hyperparameters that minimize the perplexity of the model for each vocabulary size are: 
-| vocab | hidden | bptt | class |
-|-------|--------|------|-------|
-| s1    | 100    | 3    | 1501  |
-| s2    | 100    | 3    | 1501  |
-| s3    | 40     | 0    | 1501  |
+
+| vocab | hidden | bptt | class | (perplexity) |
+|-------|--------|------|-------|--------------|
+| s1    | 200    | 3    | 100   | 3.96         |
+| s2    | 200    | 3    | 1501  | 31.36        |
+| s3    | 40     | 0    | 1501  | 81.27        |
 
 
 
