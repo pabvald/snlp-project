@@ -32,7 +32,9 @@ Email id 2: pava00001@stud.uni-saarland.de<br/>
 
 ### 2. Subword Segmentation
 
-#### a. Experiments with vocabulary sizes
+In this section, we work on 3 segmentation models with difference vocabulary sizes. The first one employs character-level segmentation, which is simply to treat each character as a token. In the rest of this section, we focus mostly on the other 2 models.
+
+#### 2.1. Experiments with vocabulary sizes
 
 There are 2 types of subword: small vocabulary size (i.e. usually from 100 to 800) and large vocabulary size (i.e. from 1500 to 3000). For each type, we do some experiments to choose an exact vocabulary size, which will be fixed for subsequent tasks.
 
@@ -97,7 +99,15 @@ For large vocabulary sizes (from 1500 to 3000), we apply the same procedure as d
 
 It can be observed from the figure that the larger the vocabulary size, the longer the description length. We suspect that this is because 1500 is already bigger than the optimal size, thus adding more tokens only makes things worse. For the purposes of the next tasks, we will use the size of 1500 for the large vocabulary size.
 
-#### b. Training of Segmentation models
+Regarding the example above, let us look at how the sentence is segmented:
+
+vocab_size = 1500:
+
+> ▁There ▁was ▁a ▁table ▁set ▁out ▁under ▁a ▁t ree ▁in ▁fr on t ▁of ▁the ▁house , ▁and ▁the ▁March ▁Hare ▁and ▁the ▁Hatter ▁were ▁having ▁tea ▁at ▁it : ▁a ▁Dormouse ▁was ▁sitting ▁bet w een ▁them , ▁f ast ▁asleep , ▁and ▁the ▁other ▁two ▁were ▁us ing ▁it ▁as ▁a ▁c ush ion , ▁rest ing ▁their ▁el b ow s ▁on ▁it , ▁and ▁talking ▁over ▁its ▁head .
+
+We can see that most of the words are standing alone as a token. This becomes close to word-level segmentation, which may potentially reduce the advantages of using sub-words for handling OOV.
+
+#### 2.2. Training of Segmentation models
 
 **Operations**:
 - We train 3 segmentation models of different vocabulary sizes:
@@ -147,6 +157,7 @@ The second plot shows how the perplexity varies with `bptt`. In general, this hy
 
 The variation of the perplexity for different values of `class` is shown in the third plot. From 100, increasing the number of classes usually reduces the perplexity for the three vocabulary sizes. There is a trade-off between model performance and training speed: a higher value of `class` requires longer time to train but may result in a marginally better performance and vice versa.
 
+Another interesting observation is that the overall performance of `s1` is much better than `s2`, which in turn is much better than `s3`. We suspect this is because the *rnnlm toolkit* misunderstood the spaces in the input files (which represent separation between tokens) as meaningful characters of the text. Thus, for `s1`, it can just predict that for any non-space character, the next character is a space, and then it has half of the predictions correct, which results in such a low perplexity. Since we are more focused on OOV handling but not perplexity optimization, we ignore this problem for the rest of the project.
 
 **Results**:
 
