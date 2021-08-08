@@ -292,4 +292,4 @@ The table below shows the baseline validation perplexity for 3 models on the def
 
 | s1 (character-granularity)       | s2 (vocab size 800)    | s3 (vocab size 1700)    |
 | :------------- | :----------: | -----------: |
-|   |   |    |
+| 7.368929  | 94.109742  |  176.930043  |
