@@ -45,4 +45,11 @@ seg_profiles = {
 # Training configurations
 TrainingConf = namedtuple('TrainingConf', 'hidden rand_seed debug bptt n_class')
 baseline_conf = TrainingConf(40, 1, 2, 4, 9999)
+optimal_conf = {
+    'en': [
+        TrainingConf(200, 1, 2, 3, 100),
+        TrainingConf(200, 1, 2, 3, 1501),
+        TrainingConf(40, 1, 2, 0, 1501),
+    ]
+}
 visualization_conf = TrainingConf(40, 1, 2, 3, 100)
