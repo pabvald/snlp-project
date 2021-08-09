@@ -1,0 +1,34 @@
+original_text
+
+There was a table set out under a tree in front of the house, and the March Hare and the Hatter were having tea at it: a Dormouse was sitting between them, fast asleep, and the other two were using it as a cushion, resting their elbows on it, and talking over its head.
+
+
+
+vocab_size = 100
+
+▁ T he re ▁w a s ▁a ▁t a b l e ▁s e t ▁ ou t ▁ u nd er ▁a ▁t re e ▁ in ▁ f r o n t ▁o f ▁the ▁ h ou s e , ▁and ▁the ▁ M a r c h ▁ H a re ▁and ▁the ▁ H a t t er ▁w er e ▁ ha v ing ▁t e a ▁a t ▁ it : ▁a ▁ D o r m ou s e ▁w a s ▁s it t ing ▁b e t w e en ▁the m , ▁ f a s t ▁a s l e e p , ▁and ▁the ▁o t he r ▁t w o ▁w er e ▁ u s ing ▁ it ▁a s ▁a ▁c u s h i o n , ▁ re s t ing ▁the i r ▁ e l b o w s ▁o n ▁ it , ▁and ▁t a l k ing ▁o v er ▁ it s ▁ he a d .
+
+
+vocab_size = 200
+
+▁T he re ▁was ▁a ▁t a b le ▁s et ▁ out ▁u nd er ▁a ▁t re e ▁in ▁f r on t ▁of ▁the ▁h ou se , ▁and ▁the ▁M ar ch ▁H a re ▁and ▁the ▁H at ter ▁w er e ▁ha v ing ▁t ea ▁at ▁it : ▁a ▁D or m ou se ▁was ▁s it t ing ▁be t w e en ▁the m , ▁f as t ▁as le e p , ▁and ▁the ▁o t her ▁t w o ▁w er e ▁u s ing ▁it ▁as ▁a ▁c u s h i on , ▁re st ing ▁the ir ▁e l b ow s ▁on ▁it , ▁and ▁t a l k ing ▁o ver ▁it s ▁he ad .
+
+
+vocab_size = 300
+
+▁The re ▁was ▁a ▁t ab le ▁s et ▁out ▁u nd er ▁a ▁t re e ▁in ▁f r on t ▁of ▁the ▁h ouse , ▁and ▁the ▁M ar ch ▁H a re ▁and ▁the ▁H at ter ▁were ▁ha v ing ▁t ea ▁at ▁it : ▁a ▁D or m ouse ▁was ▁s it t ing ▁be t w een ▁them , ▁f as t ▁as le e p , ▁and ▁the ▁o ther ▁t w o ▁were ▁u s ing ▁it ▁as ▁a ▁c u s h ion , ▁re st ing ▁the ir ▁e l b ow s ▁on ▁it , ▁and ▁t al k ing ▁o ver ▁it s ▁he ad .
+
+
+vocab_size = 500
+
+▁The re ▁was ▁a ▁t able ▁s et ▁out ▁u nder ▁a ▁t ree ▁in ▁fr on t ▁of ▁the ▁h ouse , ▁and ▁the ▁March ▁H are ▁and ▁the ▁Hatter ▁were ▁ha v ing ▁t ea ▁at ▁it : ▁a ▁Dormouse ▁was ▁s it ting ▁be t w een ▁them , ▁f ast ▁as le e p , ▁and ▁the ▁other ▁tw o ▁were ▁us ing ▁it ▁as ▁a ▁c us h ion , ▁re st ing ▁their ▁e l b ow s ▁on ▁it , ▁and ▁t al king ▁over ▁its ▁head .
+
+
+vocab_size = 700 
+
+▁The re ▁was ▁a ▁t able ▁s et ▁out ▁under ▁a ▁t ree ▁in ▁fr on t ▁of ▁the ▁house , ▁and ▁the ▁March ▁Hare ▁and ▁the ▁Hatter ▁were ▁ha ving ▁tea ▁at ▁it : ▁a ▁Dormouse ▁was ▁s it ting ▁be t w een ▁them , ▁f ast ▁as le ep , ▁and ▁the ▁other ▁two ▁were ▁us ing ▁it ▁as ▁a ▁c us h ion , ▁re st ing ▁their ▁e l b ow s ▁on ▁it , ▁and ▁tal king ▁over ▁its ▁head .
+
+
+vocab_size = 800 
+
+▁There ▁was ▁a ▁t able ▁set ▁out ▁under ▁a ▁t ree ▁in ▁fr on t ▁of ▁the ▁house , ▁and ▁the ▁March ▁Hare ▁and ▁the ▁Hatter ▁were ▁ha ving ▁tea ▁at ▁it : ▁a ▁Dormouse ▁was ▁s it ting ▁bet w een ▁them , ▁f ast ▁as leep , ▁and ▁the ▁other ▁two ▁were ▁us ing ▁it ▁as ▁a ▁c us h ion , ▁re st ing ▁their ▁e l b ow s ▁on ▁it , ▁and ▁talking ▁over ▁its ▁head .
