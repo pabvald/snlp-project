@@ -131,7 +131,7 @@ We can see that most of the words are standing alone as a token. This becomes cl
 
 #### Baseline models
 
-The table below shows the baseline validation perplexity for 3 models on the default hyperparameters:
+The table below shows the baseline validation perplexity for the 3 models on the default hyperparameters:
 
 | s1 (character-granularity)       | s2 (vocab size 500)    | s3 (vocab size 1500)    |
 | :------------- | :----------: | -----------: |
@@ -164,7 +164,7 @@ The second plot shows how the perplexity varies with `bptt`. In general, this hy
 
 The variation of the perplexity for different values of `class` is shown in the third plot. From 100, increasing the number of classes usually reduces the perplexity for the three vocabulary sizes. There is a trade-off between model performance and training speed: a higher value of `class` requires longer time to train but may result in a marginally better performance and vice versa.
 
-Another interesting observation is that the overall performance of `s1` is much better than `s2`, which in turn is much better than `s3`. We suspect this is because the *rnnlm toolkit* misunderstood the spaces in the input files (which represent separation between tokens) as meaningful characters of the text. Thus, for `s1`, it can just predict that for any non-space character, the next character is a space, and then it has half of the predictions correct, which results in such a low perplexity. Since we are more focused on OOV handling but not perplexity optimization, we ignore this problem for the rest of the project.
+Another interesting observation is that the overall performance of `s1` is much better than `s2`, which in turn is much better than `s3`. **We suspect this is because the *rnnlm toolkit* misunderstood the spaces in the input files (which represent separation between tokens) as meaningful characters of the text**. Thus, for `s1`, it can just predict that for any non-space character, the next character is a space, and then it has half of the predictions correct, which results in such a low perplexity. Since we are more focused on OOV handling but not perplexity optimization, we ignore this problem for the rest of the project.
 
 **Results**:
 
@@ -207,7 +207,7 @@ In this section, we compare the OOV rate of the original vocabulary and the augm
 
 While the original OOV rate is 4.61\%, augmenting the vocabulary with RNNLM's generated texts can effectively reduce this number, as shown in the below table and figure:
 
-| model\gen size | $10^1$ | $10^2$ | $10^3$ | $10^4$ | $10^5$ | $10^6$ | $10^7$ |
+| model\gen size | 101 | $10^2$ | $10^3$ | $10^4$ | $10^5$ | $10^6$ | $10^7$ |
 |----------------|--------|--------|--------|--------|--------|--------|--------|
 | s1    | 4.61%    | 4.61%    | 4.61%   | 4.61%   | 4.52%   | 3.89%   | 3.03%   |
 | s2    | 4.61%    | 4.61%    | 4.61%   | 4.59%   | 4.28%   | 3.55%   | 2.76%   |
@@ -300,8 +300,63 @@ The minimal description length is obtained for the vocabulary size 1700.
 
 #### Baseline models
 
-The table below shows the baseline validation perplexity for 3 models on the default hyperparameters:
+The table below shows the baseline validation perplexity for the 3 models on the default hyperparameters:
 
 | s1 (character-granularity)       | s2 (vocab size 800)    | s3 (vocab size 1700)    |
 | :------------- | :----------: | -----------: |
 | 7.368929  | 94.109742  |  176.930043  |
+
+#### Approach 
+
+We take into account the results of the grid search of the hyperparameters `hidden`, `bptt` and `class` for the English models to avoid a grid search for Bengali. We choose the following values for the three Bengali models (`s1`, `s2` and `s3`): 
+
+- `hidden=200`: we learned that the more neurons in the hidden layer, the lower the perplexity. We select again the maximum number of hidden neurons recommended by the authors of the [rnnlm toolkit](http://www.fit.vutbr.cz/~imikolov/rnnlm/FAQ.txt).
+
+- `bptt=4`: we learned that modifying the number of backpropagation steps doesn't affect the perplexity of the model much, so we keep this hyperparameter fixed (with the same value as in the baseline configuration).
+
+- `class=1700`: we select a number of classes equal to the optimal vocabulary size, i.e. 1700.
+
+
+
+##### Results 
+
+The perplexity of the three models using the above mentioned configuration are:
+
+| vocab | hidden | bptt | class | (perplexity) |
+|-------|--------|------|-------|--------------|
+| s1    | 200    | 4    | 1700  | 5.20         |
+| s2    | 200    | 4    | 1700  | 77.24        |
+| s3    | 200    | 4    | 1700  | 170.361866   |
+
+### 4. Text generation
+
+We generate texts of different lengths for each of the 3 language models from section 3. The generated texts are then decoded by the corresponding segmentation models. We tranlate the texts from Bengali to English using [Google Translator](https://translate.google.com/) to gain some understanding of the content of the generated texts. We compare the artificial texts of length 100:
+
+
+`s1`:
+>“ভিডিও থেকে একটি গল্প্রান্ধু হয়।
+খানকিকুত্তার বাচ্চাহাজিয়ে যত্তকে বাস্তব যত দিন আসে সব কত বড় যু
+
+>“There is a story-teller from the video.
+How big is all the real days when the bitch's baby hajiye yatake real
+
+
+`s2`:
+>ভাইয়া আজ আবার ও  আসুনুটে যতখন এক খালেদায়েক,
+তিন পোড়ুন খেলা চিতবেতার বোদায় হায়রে বিপক্ষা, বাংলার দফাড়াতের ভুদির ছি শালা তোর বাগি নাস্তিক ভন্ড কুত্তার বাচ্চা আবাল বাঁকিয়ে তুই ইউটিউব লাথালী ও ছোট বেলা থেকে যেতে হয়তো এই রকম বং্গালের সনয়তি কে ধরে নিয়ে যাচ্ছে
+
+> Brother, come again today and as long as one Khaledayek,
+Alas for the three-burned game Chitbetar Boda, Alas for the opposition
+
+
+`s3`:
+> সিনেমা টা ভালো করে সেইভাবে একটু টাইমে নাই ওয়ামত ও নাচেগেছে মিডিয়াতে লাখ টাকা কাওয়া কাদের বা সারা মোটাফ্যাপি তোমাকেন,,,আরতেই ঘুষখোরটা সাজল শি কি খায় আর মেয়েটার সাবস্ক্রাইব করছে একডিয়া আর দিন গ্রেপ্তন করলাম সবাই কিন পৃথিবীতে কত বড় আছে আমি বাংলাদেশের কত দিতে গিয়ে।
+আজ আমার মনে ছিলো না এখানে ডেল করে!
+যে খারাপ সালা
+
+>The movie is not doing well like that. Wamat and Nachegeche are dancing in the media for lakhs of rupees. Kawa Kader or Sara Motafapi Tomaken.
+I didn't think Dale was here today!
+That bad sala
+
+
+### 5. OOV comparison
