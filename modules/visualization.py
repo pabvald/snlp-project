@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt 
 import matplotlib.ticker as mticker
 
-from config import seg_profiles, visualization_conf, figures_path
+from config import seg_profiles, visualization_conf, Language
 from typing import List, Dict, Any
 
 
@@ -31,12 +31,14 @@ def plot_model_sizes(vocab_size: List[int], file_size: List[int], title: str="",
     if save_path is not None:
         fig.savefig(save_path)
 
-def plot_grid_results(grid_results:Dict, save_path:str=None):
+def plot_grid_results(LANG: Language, grid_results:Dict, save_path:str=None):
     """ Plot the perplexity evolution of the three models for 
     the different values of each parameter
+    :param LANG: language 
     :param grid_results: results of the grid search
     :param save_path: save the plot as .png or not
     """
+    profiles = seg_profiles[LANG.name]
 
     # Extract perplexity evolutions
     hidden_choices = set()
@@ -47,7 +49,7 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     bptt_evolution = dict()
     n_class_evolution = dict()
 
-    for seg in seg_profiles:
+    for seg in profiles:
         hidden_evolution[seg.id] = []
         bptt_evolution[seg.id] = []
         n_class_evolution[seg.id] = []
@@ -83,9 +85,9 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     # Plot the evolution for each hyper-parameter
     fig, ax = plt.subplots(ncols=3, figsize=(16,5))
     fig.subplots_adjust(hspace=.3)
-    legend = [seg.id for seg in seg_profiles]
+    legend = [seg.id for seg in profiles]
 
-    for seg in seg_profiles:
+    for seg in profiles:
         ax[0].plot(hidden_choices, hidden_evolution[seg.id])
 
     ax[0].set_xlabel("# of hidden neurons")
@@ -95,7 +97,7 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     ax[0].legend(legend)
 
 
-    for seg in seg_profiles:
+    for seg in profiles:
         ax[1].plot(bptt_choices, bptt_evolution[seg.id])
     ax[1].set_xlabel("bptt")
     ax[1].set_xticks(bptt_choices)
@@ -103,7 +105,7 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     ax[1].set_ylim(0, max_perplexity)
     ax[1].legend(legend)
 
-    for seg in seg_profiles:
+    for seg in profiles:
         ax[2].plot(n_class_choices, n_class_evolution[seg.id])
     ax[2].set_xlabel("class")
     ax[2].set_xticks(n_class_choices)
