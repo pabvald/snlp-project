@@ -56,18 +56,11 @@ There are 2 types of subword: small vocabulary size (i.e. usually from 100 to 80
 
 We propose to employ the [Minimum Description Length (MDL)](https://en.wikipedia.org/wiki/Minimum_description_length) principle to tackle this task. The MDL is a technique for model selection inspired by Occam's razor. In its basic form, MDL prefers the model which summarizes the data the best, i.e. the total size of the model and the description of the data given the model is the smallest.
 
-$$
-L = L(M) + L(D|M)
-$$
+![figures/MLD_1.PNG](figures/MLD_1.PNG)
 
 For our current task, we formalize the description length as the total size of the model file, the vocab file and the encoded text file. In which, the model file and the vocab file represent the model, and the encoded file represents the data given the model.
 
-$$
-\begin{align*}
-&L(M) = \text{size of .model file + size of .vocab file (in bytes),} \\
-&L(D|M) = \text{size of encoded file.}
-\end{align*}
-$$
+![figures/MLD_2.PNG](figures/MLD_2.PNG)
 
 To prevent from overfitting, we only consider vocab sizes rounded to hundredth, i.e. 100, 200, ..., 800 and 1500, 1600, ..., 3000. The best vocabulary size is chosen as the one which results in the smallest description length per the formulation above.
 
