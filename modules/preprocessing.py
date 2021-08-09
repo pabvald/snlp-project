@@ -1,11 +1,14 @@
 import re
+from typing import List
 from nltk import tokenize
+from config import Language
 from bltk.langtools import Tokenizer as BengaliTokenizer
 from sklearn.model_selection import train_test_split
 
-def raw_preprocess(LANG):
+
+def raw_preprocess(LANG: Language):
     """ 
-    Preprocesses the raw data so that it is ready for sentencepiece. In other words, the 
+    Preprocess the raw data so that it is ready for sentencepiece. In other words, the 
     preprocessed data must have each sentence on one separated line.
     
     Parameters:
@@ -33,9 +36,9 @@ def raw_preprocess(LANG):
 
     return sentences
 
-def _raw_preprocess_english(paragraphs):
+def _raw_preprocess_english(paragraphs: List):
     """
-    Preprocesses a list of paragraphs of the English corpus.
+    Preprocess a list of paragraphs of the English corpus.
 
     Parameters:
        paragraphs: list of paragraphs
@@ -58,9 +61,9 @@ def _raw_preprocess_english(paragraphs):
 
     return sentences
 
-def _raw_preprocess_bengali(paragraphs):
+def _raw_preprocess_bengali(paragraphs: List):
     """ 
-    Preprocesses a list of paragraphs of the Bengali corpus.
+    Preprocess a list of paragraphs of the Bengali corpus.
     
     Parameters:
         paragraphs: list of paragraphs
@@ -87,16 +90,15 @@ def _raw_preprocess_bengali(paragraphs):
 
     return sentences
 
-def split_train_test(sentences, LANG):
+def split_train_test(sentences: List, LANG: Language):
     """
-    Objective:
-        split the original data into train and test.
+    Split the original data into train and test.
 
-    Input:
-        - sentences: a list of string, each string is a sentence.
-        - LANG: the config for input language.
+    Parameters:
+        sentences: a list of string, each string is a sentence.
+        LANG: the config for input language.
 
-    Output:
+    Return:
         train and test sentences.
     """
     train, test = train_test_split(sentences, train_size=LANG.train_size, shuffle=True, random_state=42)

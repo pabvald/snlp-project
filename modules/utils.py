@@ -1,9 +1,13 @@
 import numpy as np
 from typing import List
 
+
 def print_length_statistics(sentences: List[str]):
-    """ Compute some statistics of the length of the sentences
-    :param sentences: list of sentences
+    """ 
+    Compute some statistics of the length of the sentences.
+
+    Parametters:
+        sentences: list of sentences
     """
     lengths = [len(s) for s in sentences]
     print(f"Num. of sentences = {len(lengths)}")

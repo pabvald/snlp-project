@@ -1,18 +1,23 @@
 import sentencepiece as spm
+from typing import List
+from config import Language
 
 
-def train_segmentation(text_file, LANG, vocab_size, model_type):
+def train_segmentation(text_file: str, LANG: Language, vocab_size: int, model_type: str):
     """
-    Objective:
-        train a sentencepiece model to segment text into subwords or chars.
-    Input:
-        - text_file: a string with the path to the input text file.
-        - LANG: the config for input language.
-        - vocab_size: vocabulary size of the resulting segmentation. This parameter has no effect if the `model_type` is 'char'.
-        - model_type: 'char' or 'bpe'.
-    Output:
-        a string with the path to the trained segmentation model.
+    Train a sentencepiece model to segment text into subwords or chars.
+
+    Parameters:
+        text_file: path to the input text file.
+        LANG: the config for input language.
+        vocab_size: vocabulary size of the resulting segmentation. This parameter has no effect if the `model_type` is 'char'.
+        model_type: 'char' or 'bpe'.
+
+    Returns:
+        path to the trained segmentation model.
     """
+    assert model_type in {'char', 'bpe'}, 'invalid model type'
+
     if model_type == 'char':        
         model_prefix = f'{LANG.seg_model_folder}/spm_{LANG.name}_{model_type}'
 
@@ -37,16 +42,14 @@ def train_segmentation(text_file, LANG, vocab_size, model_type):
     model_path = f'{model_prefix}.model'
     return model_path
 
-def encode_text_file(text_file, model_path, output_file):
+def encode_text_file(text_file: str, model_path: str, output_file: str):
     """
-    Objective:
-        encode a text file (in which each sentence occupies a separate line) by a sentencepiece model.
-    Input:
-        - text_file: a string with the path to the input text file.
-        - model_path: a string with the path to the sentencepiece model.
-        - output_file: a string with path to the desired encoded text.
-    Output:
-        nothing.
+    Encode a text file (in which each sentence occupies a separate line) by a sentencepiece model.
+    
+    Parameters:
+        text_file: path to the input text file.
+        model_path: the path to the sentencepiece model.
+        output_file: path to the desired encoded text.
     """
 
     # load model.
@@ -64,16 +67,14 @@ def encode_text_file(text_file, model_path, output_file):
     with open(output_file, 'w') as out_file:
         out_file.write('\n'.join(encoded_sentences))
 
-def decode_text_file(text_file, model_path, output_file):
+def decode_text_file(text_file: str, model_path: str, output_file: str):
     """
-    Objective:
-        decode an encoded text file.
-    Input:
-        - text_file: a string with the path to the input encoded text file.
-        - model_path: a string with the path to the sentencepiece model.
-        - output_file: a string with path to the desired decoded text.
-    Output:
-        nothing.
+    Decode an encoded text file.
+
+    Parameters:
+        text_file: the path to the input encoded text file.
+        model_path: the path to the sentencepiece model.
+        output_file: path to the desired decoded text.
     """
 
     # load model.

@@ -2,15 +2,18 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 from config import seg_profiles, visualization_conf, Language
-from typing import List, Dict, Any
+from typing import List, Dict
 
 
 def plot_model_sizes(vocab_size: List[int], file_size: List[int], title: str="", save_path: str=None):
-    """ Plot a bar plot of the total file size vs. the vocabulary size
-    :param vocab_size: vocabulary sizes
-    :param file_size: file sizes
-    :param title: title of the plot
-    :param save_path: path to save the plot
+    """ 
+    Plot a bar plot of the total file size vs. the vocabulary size
+
+    Parameters:
+        vocab_size: vocabulary sizes
+        file_size: file sizes
+        title: title of the plot
+        save_path: path to save the plot
     """
     fig = plt.figure(figsize=(10,5))
     ax = fig.add_axes([0,0,1,1])
@@ -31,12 +34,15 @@ def plot_model_sizes(vocab_size: List[int], file_size: List[int], title: str="",
     if save_path is not None:
         fig.savefig(save_path)
 
-def plot_grid_results(LANG: Language, grid_results:Dict, save_path:str=None):
-    """ Plot the perplexity evolution of the three models for 
+def plot_grid_results(LANG: Language, grid_results: Dict, save_path: str=None):
+    """ 
+    Plot the perplexity evolution of the three models for 
     the different values of each parameter
-    :param LANG: language 
-    :param grid_results: results of the grid search
-    :param save_path: save the plot as .png or not
+
+    Parameters:
+        LANG: language 
+        grid_results: results of the grid search
+        save_path: save the plot as .png or not
     """
     profiles = seg_profiles[LANG.name]
 
@@ -118,7 +124,7 @@ def plot_grid_results(LANG: Language, grid_results:Dict, save_path:str=None):
     if save_path is not None:
         fig.savefig(save_path)
 
-def plot_oov_rates(oov_rates, save_path=None):
+def plot_oov_rates(oov_rates: List[float], save_path: str=None):
     """
     Plot the OOV rates of difference models with varying generated text size.
 

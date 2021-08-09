@@ -1,12 +1,15 @@
 import nltk
+from config import Language
+from typing import List, Set
 
-def get_word_level_tokens(LANG, text_file):
+
+def get_word_level_tokens(LANG: Language, text_file: str):
     """
     Given a text file as input, tokenize the text on word-level and return the tokens.
 
     Parameters:
         LANG: the config for input language.
-        text_file: a string contain the path to the text file.
+        text_file: path to the text file.
 
     Returns:
         a list of tokens.
@@ -17,17 +20,17 @@ def get_word_level_tokens(LANG, text_file):
     if LANG.name == 'en':
         tokens = nltk.word_tokenize(content)
     elif LANG.name == 'bn':
-        pass #TODO
+        raise NotImplementedError
     
     return tokens
 
-def get_word_level_vocabulary(LANG, text_file):
+def get_word_level_vocabulary(LANG: Language, text_file: str):
     """
     Given a text file as input, tokenize the text on word-level and return the vocabulary.
 
     Parameters:
         LANG: the config for input language.
-        text_file: a string contain the path to the text file.
+        text_file: path to the text file.
 
     Returns:
         a list of tokens.
@@ -36,7 +39,7 @@ def get_word_level_vocabulary(LANG, text_file):
     vocab = set(tokens)
     return vocab
 
-def get_OOV_rate(vocab, test_tokens):
+def get_OOV_rate(vocab: Set[str], test_tokens: List[str]):
     """
     Compute the OOV rate.
 
