@@ -115,3 +115,28 @@ def plot_grid_results(grid_results:Dict, save_path:str=None):
     # Save figure if save_path is provided
     if save_path is not None:
         fig.savefig(save_path)
+
+def plot_oov_rates(oov_rates, save_path=None):
+    """
+    Plot the OOV rates of difference models with varying generated text size.
+
+    Parameters:
+        oov_rates: a list of list. Each list corresponds to a model and contains
+    the oov rates of that model with varying generated text size.
+        save_path: a string containing the path to save the output figure.
+    """
+    fig, ax = plt.subplots(figsize=(8, 5))
+    for id, oov_list in enumerate(oov_rates, start=1):
+        n_gen = [10**(i+1) for i in range(len(oov_list))]
+        ax.plot(n_gen, oov_list, label=f's{id}')
+        ax.set_title('OOV rate changes with size of the generated text')
+        ax.set_xlabel('generated tokens')
+        ax.set_ylabel('OOV rate (%)')
+        ax.set_xscale('log')
+
+    plt.legend()
+    plt.show()
+
+    # Save figure if save_path is provided
+    if save_path is not None:
+        fig.savefig(save_path)

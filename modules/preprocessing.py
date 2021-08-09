@@ -60,7 +60,7 @@ def _raw_preprocess_english(paragraphs):
 
 def _raw_preprocess_bengali(paragraphs):
     """ 
-   Preprocesses a list of paragraphs of the Bengali corpus.
+    Preprocesses a list of paragraphs of the Bengali corpus.
     
     Parameters:
         paragraphs: list of paragraphs
