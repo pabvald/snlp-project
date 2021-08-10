@@ -445,5 +445,3 @@ The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabul
 + From $10^5% to $10^7$, the decrease in the OOV-rate is more notiaceable, with a reduction of more than 3% for $10^7$.
 
 + Among the different models, we see that `s1` is clearly worse. `s2`and `s3`are nearly identical, but `s3` achieves a OOV-rate slightly lower.
-
-<img src="https://latex.codecogs.com/gif.latex?10^7" /> 
