@@ -422,3 +422,26 @@ Regarding the quality of the generated texts, we can only comment on the automat
 - In general, the quality of the generated texts seems equally good. This constrasts with the poorer results that the model `s1` for English gave. Each symbol of the Bengali language denotes a consonant followed by a particular vowel that is implicit; there are explicit vowels too. The way in which the Bengali writing systems works, allows the model `s1` to have enough context using simply the vocabulary corresponds with the alphabet.
 
 
+
+### 5. OOV comparison
+
+In this section, we compare the OOV rate of the original vocabulary and the augmented vocabularies from generated texts.
+
+The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabulary with RNNLM's generated texts can effectively reduce this number, as shown in the below table and figure:
+
+![figures/bn/task5_oov_rates.png](figures/bn/task5_oov_rates.png)
+
+| model\gen size | 101    | $10^2$  | $10^3$ | $10^4$  | $10^5$ | $10^6$  | $10^7$  |
+|----------------|--------|---------|--------|---------|--------|---------|---------|
+| s1             | 13.07% | 13.07%  | 13.07% | 13.07%  | 12.93% |  12.26% | 10.62%  |
+| s2             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.80% |  11.78% | 9.88%   |
+| s3             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.78% |  11.69% | 9.71%   |
+
+
+#### Observations
+
++ The OOV-rate starts to decrease only when  $10^5$ tokens have been generated to extend the vocabulary. For `s2`and `s3`, the OOV-rate starts to decrease at $10^4$, but the reduction is of just 0.03%.
+
++ From $10^5% to $10^7$, the decrease in the OOV-rate is more notiaceable, with a reduction of more than 3% for $10^7$.
+
++ Among the different models, we see that `s1` is clearly worse. `s2`and `s3`are nearly identical, but `s3` achieves a OOV-rate slightly lower.
