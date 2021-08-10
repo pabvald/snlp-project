@@ -1,6 +1,6 @@
 import sentencepiece as spm
 from typing import List
-from config import Language
+from config import Language, SEG_MODELS_PATH
 
 
 def train_segmentation(text_file: str, LANG: Language, vocab_size: int, model_type: str):
@@ -19,7 +19,7 @@ def train_segmentation(text_file: str, LANG: Language, vocab_size: int, model_ty
     assert model_type in {'char', 'bpe'}, 'invalid model type'
 
     if model_type == 'char':        
-        model_prefix = f'{LANG.seg_model_folder}/spm_{LANG.name}_{model_type}'
+        model_prefix = f'{SEG_MODELS_PATH}/{LANG.name}/spm_{model_type}'
 
         spm.SentencePieceTrainer.train(
             input=text_file,
@@ -29,7 +29,7 @@ def train_segmentation(text_file: str, LANG: Language, vocab_size: int, model_ty
         )
 
     elif model_type == 'bpe':        
-        model_prefix = f'{LANG.seg_model_folder}/spm_{LANG.name}_{model_type}_vocabsize-{vocab_size}'
+        model_prefix = f'{SEG_MODELS_PATH}/{LANG.name}/spm_{model_type}_vocabsize-{vocab_size}'
 
         spm.SentencePieceTrainer.train(
             input=text_file,

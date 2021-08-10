@@ -1,0 +1,46 @@
+
+original text: 
+
+> তোবে এভাবে তার দিকে ধেয়ে যাওয়া কখনো কাম্য নয়।
+
+> Tōbē ēbhābē tāra dikē dhēẏē yā'ōẏā kakhanō kāmya naẏa.
+
+>However, it is never desirable to rush towards him like this.
+
+
+
+vocab_size = 100: 
+> ▁ত ো বে ▁এ ভ া বে ▁ত ার ▁দ ি কে ▁ ধ ে য়ে ▁য া ও য়া ▁ক খ ন ো ▁ক া ম ্য ▁ন য় ।
+
+> ▁Ta ̔ō bē ▁ē bha ̔ā bē ▁ta ̔āra ▁da ̔i kē ▁ dha ̔ē ẏē ▁ya ̔ā ō ẏā ▁ka kha na ̔ō ▁ka ̔ā ma ya ▁na ẏa.
+
+
+
+vocab_size = 300: 
+> ▁তো বে ▁এ ভ াবে ▁তার ▁দি কে ▁ধ েয়ে ▁যা ওয়া ▁ক খন ো ▁কা ম ্য ▁ন য় ।
+
+> ▁Tō bē ▁ē bha ̔ābē ▁tāra ▁di kē ▁dha ̔ēẏē ▁yā ōẏā ▁ka khana ̔ō ▁kā ma ya ▁na ẏa.
+
+
+
+vocab_size = 500: 
+> ▁তো বে ▁এ ভাবে ▁তার ▁দি কে ▁ধ েয়ে ▁যা ওয়া ▁ক খন ো ▁কা ম ্য ▁নয় ।
+
+> ▁Tō bē ▁ē bhābē ▁tāra ▁di kē ▁dha ̔ēẏē ▁yā ōẏā ▁ka khana ̔ō ▁kā ma ya ▁naẏa.
+
+
+
+
+vocab_size = 800:
+
+> ▁তো বে ▁এ ভাবে ▁তার ▁দি কে ▁ধ েয়ে ▁যা ওয়া ▁কখন ো ▁কা ম ্য ▁নয় ।
+
+> ▁Tō bē ▁ē bhābē ▁tāra ▁di kē ▁dha ̔ēẏē ▁yā ōẏā ▁kakhana ̔ō ▁kā ma ya ▁naẏa.
+
+
+
+vocab_size = 1700:
+
+>▁তো বে ▁এভাবে ▁তার ▁দিকে ▁ধ েয়ে ▁যা ওয়া ▁কখনো ▁কাম ্য ▁নয় ।
+
+> ▁Tō bē ▁ēbhābē ▁tāra ▁dikē ▁dha ̔ēẏē ▁yā ōẏā ▁kakhanō ▁kāma ya ▁naẏa.

@@ -70,7 +70,7 @@ a. Small vocabulary:
 
 For small vocabulary sizes (from 100 to 800), the corresponding description length (or total file size) is shown in the figure below. The smallest description length belongs to the vocabulary size of 500.
 
-![figures/Task2.3.small_vocab_file_size.png](figures/en_task2.3_small_vocab_file_size.png)
+![figures/en/task2.3_small_vocab_file_size.png](figures/en/task2.3_small_vocab_file_size.png)
 
 One interesting observation is that the description length decreases sharply from vocabulary size of 100 to 200. For a qualitative evalution, let us look at an examplar sentence:
 
@@ -102,7 +102,7 @@ b. Large vocabulary
 
 For large vocabulary sizes (from 1500 to 3000), we apply the same procedure as described. The description lengths corresponding to different sizes are shown below: 
 
-![figures/Task2.3.large_vocab_file_size.png](figures/en_task2.3_large_vocab_file_size.png)
+![figures/en/task2.3_large_vocab_file_size.png](figures/en/task2.3_large_vocab_file_size.png)
 
 It can be observed from the figure that the larger the vocabulary size, the longer the description length. We suspect that this is because 1500 is already bigger than the optimal size, thus adding more tokens only makes things worse. For the purposes of the next tasks, we will use the size of 1500 for the large vocabulary size.
 
@@ -156,7 +156,7 @@ The exact list of values for each hyperparameters can be seen in the code. Note 
 
 The following plots show how the perplexity of the model varies when changing each of the hyperparameters, while leaving the rest fixed. 
 
-![figures/en_task3.png](figures/en_task3.png)
+![figures/en/task3.png](figures/en/task3.png)
 
 The first plot shows the perplexity values for different sizes of the `hidden` layer of the RNNLM for a fixed value of `bptt` and `class`. In all cases, increasing the number of hidden layers gives a lower (better) perplexity. For `s1`and `s2`, changing from 5 to 20 hidden neurons implies a huge decrease. The intensity of change is lessened when there are more and more neurons. From 100 neurons onwards, the differences are negligible.
 
@@ -275,7 +275,7 @@ a. Small vocabulary
 
 For small vocabulary sizes (from 100 to 800), the corresponding description length (or total file size) is shown in the figure below. Increasing the vocabulary size decreases the description length, being 800 the optimal vocabulary size within this range.
 
-![figures/bn_task2.3_small_vocab_file_size.png](figures/bn_task2.3_small_vocab_file_size.png)
+![figures/bn/task2.3_small_vocab_file_size.png](figures/bn/task2.3_small_vocab_file_size.png)
 
 We examine the different segmentations of an example sentence to try to understand how the models behave for the Bengali language: 
 
@@ -313,7 +313,7 @@ b. Large vocabulary
 
 For large vocabulary sizes (from 1500 to 3000), we repeat the procedure. The description lengths corresponding to different sizes are shown below.
 
-![figures/bn_task2.3_large_vocab_file_size.png](figures/bn_task2.3_large_vocab_file_size.png)
+![figures/bn/task2.3_large_vocab_file_size.png](figures/bn/task2.3_large_vocab_file_size.png)
 
 The minimal description length is obtained for the vocabulary size 1700.
 
@@ -424,3 +424,26 @@ Regarding the quality of the generated texts, we can only comment on the automat
 
 
 ### 5. OOV comparison
+
+In this section, we compare the OOV rate of the original vocabulary and the augmented vocabularies from generated texts.
+
+The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabulary with RNNLM's generated texts can effectively reduce this number, as shown in the below table and figure:
+
+![figures/bn/task5_oov_rates.png](figures/bn/task5_oov_rates.png)
+
+| model\gen size | 101    | $10^2$  | $10^3$ | $10^4$  | $10^5$ | $10^6$  | $10^7$  |
+|----------------|--------|---------|--------|---------|--------|---------|---------|
+| s1             | 13.07% | 13.07%  | 13.07% | 13.07%  | 12.93% |  12.26% | 10.62%  |
+| s2             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.80% |  11.78% | 9.88%   |
+| s3             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.78% |  11.69% | 9.71%   |
+
+
+#### Observations
+
++ The OOV-rate starts to decrease only when  $10^5$ tokens have been generated to extend the vocabulary. For `s2`and `s3`, the OOV-rate starts to decrease at $10^4$, but the reduction is of just 0.03%.
+
++ From $10^5% to $10^7$, the decrease in the OOV-rate is more notiaceable, with a reduction of more than 3% for $10^7$.
+
++ Among the different models, we see that `s1` is clearly worse. `s2`and `s3`are nearly identical, but `s3` achieves a OOV-rate slightly lower.
+
+<img src="https://latex.codecogs.com/gif.latex?10^7" /> 

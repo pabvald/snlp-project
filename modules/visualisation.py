@@ -135,8 +135,9 @@ def plot_oov_rates(oov_rates: List[float], save_path: str=None):
     """
     fig, ax = plt.subplots(figsize=(8, 5))
     for id, oov_list in enumerate(oov_rates, start=1):
+        oov_list_percentage = [oov * 100 for oov in oov_list]
         n_gen = [10**(i+1) for i in range(len(oov_list))]
-        ax.plot(n_gen, oov_list, label=f's{id}')
+        ax.plot(n_gen, oov_list_percentage, label=f's{id}')
         ax.set_title('OOV rate changes with size of the generated text')
         ax.set_xlabel('generated tokens')
         ax.set_ylabel('OOV rate (%)')

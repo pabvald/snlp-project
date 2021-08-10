@@ -1,4 +1,5 @@
 import nltk
+from bltk.langtools import Tokenizer as BengaliTokenizer
 from config import Language
 from typing import List, Set
 
@@ -15,12 +16,13 @@ def get_word_level_tokens(LANG: Language, text_file: str):
         a list of tokens.
     """
     with open(text_file, 'r') as f:
-        content = f.read()
+        text = f.read()
 
     if LANG.name == 'en':
-        tokens = nltk.word_tokenize(content)
+        tokens = nltk.word_tokenize(text)
     elif LANG.name == 'bn':
-        raise NotImplementedError
+        tokenizer = BengaliTokenizer()
+        tokens = tokenizer.word_tokenizer(text)
     
     return tokens
 
@@ -39,7 +41,7 @@ def get_word_level_vocabulary(LANG: Language, text_file: str):
     vocab = set(tokens)
     return vocab
 
-def get_OOV_rate(vocab: Set[str], test_tokens: List[str]):
+def get_oov_rate(vocab: Set[str], test_tokens: List[str]):
     """
     Compute the OOV rate.
 
