@@ -1,18 +1,13 @@
 from collections import namedtuple
 
 # Paths 
-figures_path = 'figures'
-experiments_path = 'experiments'
-
-# Neptune configuration
-class NeptuneConfig:
-  project = 'pabvald/snlp'
-  api_token = 'eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJkNTIxNzcyMS04MTJiLTQ2ZWQtYWNmYy0wOWU1YjI0ZDU4NTIifQ=='
+SEG_MODELS_PATH = 'seg_models'
+FIGURES_PATH = 'figures'
+EXPERIMENTS_PATH = 'experiments'
 
 # Language configuration
 class Language:
     train_size = 0.8
-    seg_model_folder = './seg_models'
 
 class English(Language):
     name = 'en'
@@ -50,7 +45,13 @@ optimal_conf = {
         TrainingConf(200, 1, 2, 3, 100),
         TrainingConf(200, 1, 2, 3, 1501),
         TrainingConf(40, 1, 2, 0, 1501),
-    ]
+    ], 
+    'bn': [
+        TrainingConf(200, 1, 2, 4, 1700),
+        TrainingConf(200, 1, 2, 4, 1700),
+        TrainingConf(200, 1, 2, 4, 1700),
+    ], 
 }
+
 visualization_conf = TrainingConf(40, 1, 2, 3, 100)
 
