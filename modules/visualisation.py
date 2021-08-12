@@ -133,11 +133,15 @@ def plot_oov_rates(oov_rates: List[float], save_path: str=None):
     the oov rates of that model with varying generated text size.
         save_path: a string containing the path to save the output figure.
     """
+    model_names = ['s1_baseline', 's2_baseline', 's3_baseline',
+        's1_optimal', 's2_optimal', 's3_optimal']
+    colors = ['lime', 'cyan', 'lightcoral', 'darkgreen', 'blue', 'red']
+
     fig, ax = plt.subplots(figsize=(8, 5))
-    for id, oov_list in enumerate(oov_rates, start=1):
+    for oov_list, model_name, color in zip(oov_rates, model_names, colors):
         oov_list_percentage = [oov * 100 for oov in oov_list]
         n_gen = [10**(i+1) for i in range(len(oov_list))]
-        ax.plot(n_gen, oov_list_percentage, label=f's{id}')
+        ax.plot(n_gen, oov_list_percentage, label=f'{model_name}', color=color)
         ax.set_title('OOV rate changes with size of the generated text')
         ax.set_xlabel('generated tokens')
         ax.set_ylabel('OOV rate (%)')

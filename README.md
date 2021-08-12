@@ -178,25 +178,42 @@ The configurations of hyperparameters that minimize the perplexity of the model 
 
 ### 4. Text generation
 
-We generate texts of different lengths for each of the 3 language models from section 3. The generated texts are then decoded by the corresponding segmentation models. Next, we compare the artificial texts of length 100:
+We generate texts of different lengths for each of the 6 language models (3 baseline and 3 optimal models) from section 3. The generated texts are then decoded by the corresponding segmentation models. Next, we compare the artificial texts of length 100:
 
-`s1`:
+`s1 baseline`:
+> Withle his hear very time a lid shoup of bith could arraution pogg a won't ince: boghmendhed insee 
+
+`s2 baseline`:
+> Alice began little lesson--thege in courthed pice, as prie was the Criter kipp now in Wet, twink on, cards have cometely to that is any haird.  
+`What hildider that flay too much nerept the way of you werehadge, will I can't anything out in your inter, if they'
+
+`s3 baseline`:
+> he took the Duchess--' to!'  
+\`No are that,' said Alice, and all a nl t argo, beginning!'  
+\`It's it how?'  
+Arills all, I have go out of any a thing it written.'  
+O E did you tast either you,' said the Mock Turtle; \` swro idea anyab came to know when the Nes!  
+\`It's begunered to see them about, when I can tell you more
+
+`s1 optimal`:
 > \`If her head of a.'  
 \`I should this losk, deen tone; \`But that's at remarked,' Alice found Alice, a
 
-`s2`:
+`s2 optimal`:
 > Atter used the time in looked blows at the guess of the book, and he found on the pimmiast, the children last nearly.  
 And she was goved, little she thought peep at it, so went to sure.  
 poolowing the biture: but Alice toom at the musost, and a great song that s
 
-`s3`:
+`s3 optimal`:
 > She said the Lpoty is, \` soon knew her teanher of a Fock tearenion, beautifulidly, and began finished her feet, that had an moral to get off; and behind it, and a great hard sadceen in that, howb jo under a poor little anything viola quietly.  
 \`There's getting likeer about at them soto.  
 said the Gryphon remarked, \`and this ear turned a tone of them sisterass
 
-It can be seen that the 3 texts have differences in length (in terms of number of characters). Since `s1` use only single characters as tokens, the text it generates is the shortest. On the other hand, `s3` generates the longest text because it uses more lengthier combinations of characters.
+It can be seen that for both baseline and optimal models, the 3 texts have differences in length (in terms of number of characters). Since `s1` use only single characters as tokens, the text it generates is the shortest. On the other hand, `s3` generates the longest text because it uses more lengthier combinations of characters.
 
-About quality, it looks like `s2` gives the best result. 
+Overall, the optimal models show a better performance over the baseline models. This agrees with the reduction in perplexity that the optimal models were optimized for.
+
+Regarding the optimal models, it looks like `s2` gives the highest quality of text. 
 * For `s1`, the context seems very "short", each sentence comprises a small number of words, and words at moderate distance seems to be unrelated to each other. We deem this problem to be a consequence of using very short tokens (i.e. character tokens). For example, let's say the RNN LM can regard the last 10 tokens to generate the next token, if all those last 10 tokens are characters, then that effectively means our LM only has a context of 2 or 3 words. In contrast, if those tokens are all words themselves, then our LM has a larger context of 10 words.
     
 * The same reasoning applies to explain why the text from `s3` gives longer sentence on average compared to the other models. Another observation taken from `s3` is that the generated text has many "meaningless" words like `teanher`, `tearenion`, `beautifulidly`. Note that these words didn't appear in the training data but rather are made up by the language model (by combining sub-words). The reason, as we suspect, is that since `s3` uses a large vocabulary size on a small training dataset, the statistics on its tokens are not significant (i.e. have low support), resulting in a bad performance.
@@ -205,22 +222,27 @@ About quality, it looks like `s2` gives the best result.
 
 ### 5. OOV comparison
 
-In this section, we compare the OOV rate of the original vocabulary and the augmented vocabularies from generated texts. (Note that we pre-process the texts with lower-casing and punctuation removel before computing OOV rates.)
+In this section, we compare the OOV rate of the original vocabulary and the augmented vocabularies from generated texts. (Note that we pre-process the texts with lower-casing and punctuation removal before computing OOV rates.)
 
-While the original OOV rate is 4.61\%, augmenting the vocabulary with RNNLM's generated texts can effectively reduce this number, as shown in the below table and figure:
+While the original OOV rate is 4.80\%, augmenting the vocabulary with RNNLM's generated texts can effectively reduce this number, as shown in the below table and figure:
 
 | model\gen size | $10^1$ | $10^2$ | $10^3$ | $10^4$ | $10^5$ | $10^6$ | $10^7$ |
 |----------------|--------|--------|--------|--------|--------|--------|--------|
-| s1    | 4.80%    | 4.80%    | 4.80%   | 4.79%   | 4.64%   | 3.92%   | 2.96%   |
-| s2    | 4.80%    | 4.80%    | 4.80%   | 4.71%   | 4.33%   | 3.59%   | 2.71%   |
-| s3    | 4.80%    | 4.80%    | 4.80%   | 4.73%   | 4.49%   | 3.81%   | 2.93%   |
+| s1_baseline    | 4.80%  | 4.80%  | 4.80%  | 4.80%  | 4.62%  | 4.21%  | 3.41%  |
+| s2_baseline    | 4.80%  | 4.80%  | 4.80%  | 4.75%  | 4.33%  | 3.61%  | 2.83%  |
+| s3_baseline    | 4.80%  | 4.80%  | 4.79%  | 4.77%  | 4.51%  | 3.94%  | 3.20%  |
+| s1_optimal     | 4.80%  | 4.80%  | 4.80%  | 4.79%  | 4.64%  | 3.92%  | 2.96%  |
+| s2_optimal     | 4.80%  | 4.80%  | 4.80%  | 4.71%  | 4.33%  | 3.59%  | 2.71%  |
+| s3_optimal     | 4.80%  | 4.80%  | 4.80%  | 4.73%  | 4.49%  | 3.81%  | 2.93%  |
 
 ![figures/en_task5_oov_rates.png](figures/en/task5_oov_rates.png)
 
 **Observations**:
-* We need a fair amount of artificial text to reduce the OOV rate. For `s1`, it is not until we generate $10^5$ tokens that the OOV starts to decrease. For `s2` and `s3`, they start decreasing from $10^4$ tokens, but the reduction is still quite small at that stage.
-* From $10^5$ to $10^7$ tokens, the OOV rates of all models go almost linearly to the log of generated text size.
-* In general, `s2` gives a better OOV rate than the other 2 models. This align well with our observation from above sections, where `s2` also showed superior results. For practical applications, we would prefer `s2` over its counterparts.
+* There are almost no improvement in OOV rates if the augmenting text is small (i.e. less than or equal to $10^3$ tokens). OOV rates start decreasing from $10^4$ tokens, but the reduction is still quite small at that stage. OOV rates get lower with longer generated texts.
+* From $10^5$ to $10^7$ tokens, the OOV rates of most models go almost linearly to the log of generated text size.
+* Overall, given the same vocabulary size, the optimal models reduce the OOV rate better than the baseline models, especially when the number of generate tokens is significant (i.e. $10^6$ and $10^7$).
+* In general, `s2` gives a better OOV rate than the other 2 models. This align well with our observation from above sections, where `s2` also showed superior results in terms of MDL and perplexity. 
+* For practical applications, we would prefer `s2_optimal` over its counterparts.
 
 ## B. Bengali
 
