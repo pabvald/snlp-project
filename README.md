@@ -46,7 +46,7 @@ Some characteristics of the English language are:
 
 ### 2. Subword Segmentation
 
-In this section, we work on 3 segmentation models with difference vocabulary sizes. The first one employs character-level segmentation, which is simply to treat each character as a token. In the rest of this section, we focus mostly on the other 2 models.
+In this section, we work on 3 segmentation models with difference vocabulary sizes. The first one employs character-level segmentation, which is simply to treat each character as a token, resulting in a vocabulary size of 74. In the rest of this section, we focus mostly on the other 2 models.
 
 #### 2.1. Experiments with vocabulary sizes
 
@@ -133,7 +133,7 @@ We can see that most of the words are standing alone as a token. This becomes cl
 
 The table below shows the baseline validation perplexity for the 3 models on the default hyperparameters:
 
-| s1 (character-granularity)       | s2 (vocab size 500)    | s3 (vocab size 1500)    |
+| s1 (character-granularity, vocab size 74)       | s2 (vocab size 500)    | s3 (vocab size 1500)    |
 | :------------- | :----------: | -----------: |
 |  5.257669 | 33.814382   | 85.886606   |
 
@@ -205,17 +205,17 @@ About quality, it looks like `s2` gives the best result.
 
 ### 5. OOV comparison
 
-In this section, we compare the OOV rate of the original vocabulary and the augmented vocabularies from generated texts.
+In this section, we compare the OOV rate of the original vocabulary and the augmented vocabularies from generated texts. (Note that we pre-process the texts with lower-casing and punctuation removel before computing OOV rates.)
 
 While the original OOV rate is 4.61\%, augmenting the vocabulary with RNNLM's generated texts can effectively reduce this number, as shown in the below table and figure:
 
-| model\gen size | 101 | $10^2$ | $10^3$ | $10^4$ | $10^5$ | $10^6$ | $10^7$ |
+| model\gen size | $10^1$ | $10^2$ | $10^3$ | $10^4$ | $10^5$ | $10^6$ | $10^7$ |
 |----------------|--------|--------|--------|--------|--------|--------|--------|
 | s1    | 4.61%    | 4.61%    | 4.61%   | 4.61%   | 4.52%   | 3.89%   | 3.03%   |
 | s2    | 4.61%    | 4.61%    | 4.61%   | 4.59%   | 4.28%   | 3.55%   | 2.76%   |
 | s3    | 4.61%    | 4.61%    | 4.61%   | 4.55%   | 4.37%   | 3.82%   | 3.07%   |
 
-![figures/en_task5_oov_rates.png](figures/en_task5_oov_rates.png)
+![figures/en_task5_oov_rates.png](figures/en/task5_oov_rates.png)
 
 **Observations**:
 * We need a fair amount of artificial text to reduce the OOV rate. For `s1`, it is not until we generate $10^5$ tokens that the OOV starts to decrease. For `s2` and `s3`, they start decreasing from $10^4$ tokens, but the reduction is still quite small at that stage.
@@ -260,7 +260,7 @@ Some characteristics of the Bengali language are:
 
 ### 2. Subword Segmentation
 
-In this section, we work on 3 segmentation models with difference vocabulary sizes. The first one employs character-level segmentation, which is simply to treat each character as a token. In the rest of this section, we focus mostly on the other 2 models.
+In this section, we work on 3 segmentation models with difference vocabulary sizes. The first one employs character-level segmentation, which is simply to treat each character as a token, resulting in a vocabulary size of 55. In the rest of this section, we focus mostly on the other 2 models.
 
 #### 2.1. Experiments with vocabulary sizes
 
@@ -358,7 +358,7 @@ Original text:
 
 The table below shows the baseline validation perplexity for the 3 models on the default hyperparameters:
 
-| s1 (character-granularity)       | s2 (vocab size 800)    | s3 (vocab size 1700)    |
+| s1 (character-granularity, vocab size 55)       | s2 (vocab size 800)    | s3 (vocab size 1700)    |
 | :------------- | :----------: | -----------: |
 | 7.368929  | 94.109742  |  176.930043  |
 
@@ -431,7 +431,7 @@ The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabul
 
 ![figures/bn/task5_oov_rates.png](figures/bn/task5_oov_rates.png)
 
-| model\gen size | 101    | $10^2$  | $10^3$ | $10^4$  | $10^5$ | $10^6$  | $10^7$  |
+| model\gen size | $10^1$ | $10^2$  | $10^3$ | $10^4$  | $10^5$ | $10^6$  | $10^7$  |
 |----------------|--------|---------|--------|---------|--------|---------|---------|
 | s1             | 13.07% | 13.07%  | 13.07% | 13.07%  | 12.93% |  12.26% | 10.62%  |
 | s2             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.80% |  11.78% | 9.88%   |
@@ -442,6 +442,6 @@ The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabul
 
 + The OOV-rate starts to decrease only when  $10^5$ tokens have been generated to extend the vocabulary. For `s2`and `s3`, the OOV-rate starts to decrease at $10^4$, but the reduction is of just 0.03%.
 
-+ From $10^5% to $10^7$, the decrease in the OOV-rate is more notiaceable, with a reduction of more than 3% for $10^7$.
++ From $10^5$ to $10^7$, the decrease in the OOV-rate is more notiaceable, with a reduction of more than 3% for $10^7$.
 
 + Among the different models, we see that `s1` is clearly worse. `s2`and `s3`are nearly identical, but `s3` achieves a OOV-rate slightly lower.

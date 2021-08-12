@@ -3,6 +3,7 @@ from bltk.langtools import Tokenizer as BengaliTokenizer
 from config import Language
 from typing import List, Set
 
+from preprocessing import text_preprocess
 
 def get_word_level_tokens(LANG: Language, text_file: str):
     """
@@ -18,11 +19,13 @@ def get_word_level_tokens(LANG: Language, text_file: str):
     with open(text_file, 'r') as f:
         text = f.read()
 
+    preprocessed_text = text_preprocess(LANG, text)
+
     if LANG.name == 'en':
-        tokens = nltk.word_tokenize(text)
+        tokens = nltk.word_tokenize(preprocessed_text)
     elif LANG.name == 'bn':
         tokenizer = BengaliTokenizer()
-        tokens = tokenizer.word_tokenizer(text)
+        tokens = tokenizer.word_tokenizer(preprocessed_text)
     
     return tokens
 

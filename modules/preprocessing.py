@@ -1,9 +1,11 @@
 import re
+import string
 from typing import List
 from nltk import tokenize
-from config import Language
 from bltk.langtools import Tokenizer as BengaliTokenizer
 from sklearn.model_selection import train_test_split
+
+from config import Language
 
 
 def raw_preprocess(LANG: Language):
@@ -89,6 +91,19 @@ def _raw_preprocess_bengali(paragraphs: List):
         sentences.extend(paragraph_sentences)
 
     return sentences
+
+def text_preprocess(LANG, text: str):
+    """
+    Basic pre-processing of a text by punctuation removal and lower-casing.
+    """
+    if LANG.name == 'en':
+        preprocessed_text = text.lower().translate(
+            str.maketrans(string.punctuation, ' '*len(string.punctuation))
+        )
+    elif LANG.name == 'bn':
+        raise NotImplementedError('Not implemented')
+
+    return preprocessed_text
 
 def split_train_test(sentences: List, LANG: Language):
     """
