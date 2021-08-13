@@ -1,0 +1,5 @@
+bltk
+matplotlib
+nltk
+sklearn
+sentencepiece

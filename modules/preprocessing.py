@@ -3,6 +3,7 @@ import string
 from typing import List
 from nltk import tokenize
 from bltk.langtools import Tokenizer as BengaliTokenizer
+from bltk.langtools.banglachars import punctuations as bengali_punctuations
 from sklearn.model_selection import train_test_split
 
 from config import Language
@@ -80,8 +81,9 @@ def _raw_preprocess_bengali(paragraphs: List):
         paragraph = re.sub('<.*?>', '', paragraph)
         # Substitute two or more exclamations/interrogations/full stops by a single one
         paragraph = re.sub(r'\?{2,}', '?', paragraph)
-        paragraph = re.sub(r'\!{2,}', '!', paragraph)
-        paragraph = re.sub(r'।{2,}', '|', paragraph)    
+        paragraph = re.sub(r'!{2,}', '!', paragraph)
+        paragraph = re.sub(r'।{2,}', '|', paragraph)   
+        paragraph = re.sub(r'^[\?!।]\\n', '', paragraph) 
         # Remove English text 
         paragraph = re.sub(r'[a-zA-Z]', '', paragraph)    
         # Tokenize into sentences
@@ -92,7 +94,7 @@ def _raw_preprocess_bengali(paragraphs: List):
 
     return sentences
 
-def text_preprocess(LANG, text: str):
+def text_preprocess(LANG: Language, text: str):
     """
     Basic pre-processing of a text by punctuation removal and lower-casing.
     """
@@ -101,7 +103,7 @@ def text_preprocess(LANG, text: str):
             str.maketrans(string.punctuation, ' '*len(string.punctuation))
         )
     elif LANG.name == 'bn':
-        raise NotImplementedError('Not implemented')
+        preprocessed_text = "".join(c for c in text if c not in bengali_punctuations)
 
     return preprocessed_text
 
