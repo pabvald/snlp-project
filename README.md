@@ -150,7 +150,7 @@ For each model, we do grid search on 3 hyperparameters:
 - `bptt`: the number of steps in time that error is backpropagated,
 - `class`: the number of classes for class-based LM.
 
-The exact list of values for each hyperparameters can be seen in the code. Note that for the `hidden`, we set an upperbound of 200 as suggested by the authors of the [rnnlm toolkit](http://www.fit.vutbr.cz/~imikolov/rnnlm/FAQ.txt) for small texts with less than 1M words. For the `class`, we set an upperbound of 1501, which is higher than the maximum vocabulary size we selected in the previous sections.
+The exact list of values for each hyperparameters can be seen in the code. Note that for the `hidden`, we set an upperbound of 200 as suggested by the authors of the [rnnlm toolkit](http://www.fit.vutbr.cz/~imikolov/rnnlm/FAQ.txt) for small texts with less than 1M words. For the `class`, all values greater than or equal to 1500 are equivalent (since the maximum vocabulary size we selected in the previous section is 1500). Here we set an upperbound of 1501.
 
 **Observations**:
 
@@ -167,6 +167,8 @@ The variation of the perplexity for different values of `class` is shown in the 
 Another interesting observation is that the overall performance of `s1` is much better than `s2`, which in turn is much better than `s3`. **We suspect this is because the *rnnlm toolkit* misunderstood the spaces in the input files (which represent separation between tokens) as meaningful characters of the text**. Thus, for `s1`, it can just predict that for any non-space character, the next character is a space, and then it has half of the predictions correct, which results in such a low perplexity. Since we are more focused on OOV handling but not perplexity optimization, we ignore this problem for the rest of the project.
 
 **Results**:
+
+There are different approaches to select the sets of optimal hyperparameters base on the above results and observations. One may follow Occam's Razor and prefer small values for the hyperparameters as long as the perplexity is only slightly higher than the minimum one. Another may directly choose the sets of values that result in the optimal perplexities. For simplicity, we opt for the second approach.
 
 The configurations of hyperparameters that minimize the perplexity of the model for each vocabulary size are: 
 
@@ -386,7 +388,7 @@ The table below shows the baseline validation perplexity for the 3 models on the
 
 #### Approach 
 
-We take into account the results of the grid search of the hyperparameters `hidden`, `bptt` and `class` for the English models to avoid a grid search for Bengali. We choose the following values for the three Bengali models (`s1`, `s2` and `s3`): 
+We take into account the results of the grid search of the hyperparameters `hidden`, `bptt` and `class` for the English models to avoid a grid search for Bengali (it take much longer time to do experiments on the Bengali corpus). We choose the following values for the three Bengali models (`s1`, `s2` and `s3`): 
 
 - `hidden=200`: we learned that the more neurons in the hidden layer, the lower the perplexity. We select again the maximum number of hidden neurons recommended by the authors of the [rnnlm toolkit](http://www.fit.vutbr.cz/~imikolov/rnnlm/FAQ.txt).
 
@@ -467,3 +469,32 @@ The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabul
 + From $10^5$ to $10^7$, the decrease in the OOV-rate is more notiaceable, with a reduction of more than 3% for $10^7$.
 
 + Among the different models, we see that `s1` is clearly worse. `s2`and `s3`are nearly identical, but `s3` achieves a OOV-rate slightly lower.
+
+
+## Overall Analysis
+Some ideas for this section:
+* What we aim to achieve: 
+    * reduce OOV rate.
+
+* Whether our expectations were fulfilled: 
+    * yes, we use perplexity to tune the language models, and the generated texts from the tuned models reduce OOV rate more than the counterpart from baseline models.
+
+* What are our takeaways from this project? 
+    * ?
+    * sub-words, at an appropriate granularity, is better than character-level and word-level tokens. Sub-words help with inference of meaningful words that didn't appear in the training.
+    * We can reduce OOV rate by augmenting the vocabulary using the generated text.
+
+* How do your results differ for English and Bengali?
+    * Why there is a difference in the optimal vocab size (500 for English and 1700 for Bengali)? Maybe because Bengali is a more morphologically rich language.
+    * Why the overall OOV rates of English is smaller than Bengali eventhough the training size for English is much smaller? Also because of morphology.
+    * For Bengali, the reduction in OOV rates of the tuned models compared to the baseline models is less significant than in the English models. One reason maybe we don't properly tune the hyperparameters for the Bengali models, but only infer from our observations from English models.
+
+* What hyperparameters do you use to optimise the OOV rates? 
+    * vocab size (using MDL),
+    * rnnlm's hyperparameters: hidden, class, bptt. bptt does not really have a big impact. Higher values for hidden usually mean better result. Set class = vocab size seems to be the best.
+
+* Are there any ways you could improve your results?
+    * For hyperparameter tuning (in section 3), choosing the Occam's Razor approach.
+    * Do proper tuning for Bengali.
+    * Use more and varied training data.
+    * Try different model architectures (e.g. transformer, SVM).
