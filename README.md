@@ -374,7 +374,6 @@ vocab_size = 1700:
 
 
 
-Original text: 
 
 ### 3. Language Model training
 
@@ -410,10 +409,38 @@ The perplexity of the three models using the above mentioned configuration are:
 
 ### 4. Text generation
 
-We generate texts of different lengths for each of the 3 language models from section 3. The generated texts are then decoded by the corresponding segmentation models. We tranlate the texts from Bengali to English using [Google Translator](https://translate.google.com/) to gain some understanding of the content of the generated texts. We compare the artificial texts of length 100:
+We generate texts of different lengths for each of the 6 language models (3 baseline and 3 optimal models) from section 3. The generated texts are then decoded by the corresponding segmentation models. We translate the texts from Bengali to English using [Google Translator](https://translate.google.com/) to gain some understanding of the content of the generated texts. Of course, when Google Translator, we must take into account that it has the ability to auto-correct word and grammar errors, giving better results in English than the original results in Bengali.  Next, we compare the artificial texts of length 100: 
 
+`s1 baseline`:
+> টারা হচুন না অনশালে দিস আর করা শক্যোথা নাই জদিও আজতে দ্বকি তাইসবিল অপরতো তুই থেকে কোন অনেক ক্রকা রু
 
-`s1`:
+> Tara hachun na anshale dis aar kara shakyotha nai jadio aajte dbki taisbil aparato tui to ko kanai kroka ru
+
+`s2 baseline`:
+> সাকিব নেওয়ামী ভাষাও প্রথম না তাকে সাংবাদিক নেয়ত !
+যে সাদাত করে দেন কিছু হোক।
+অশনকজনীতি ছাড়া কাকে চিত্রোন নবীতে পারেছে খুব মজা পাইলে খুদানি পাপন সাহেব অনেক ধন্যবাদ কেন?
+আন্দতেল আমি।
+তাকিয়ে দেখলাম।
+এই লোককেও বলছিলো চিনিতে মারছি, রইলব ইবিবা
+
+> Shakib Newami language was not the first to take him as a journalist!
+Whatever you make sadat.
+If you have a lot of fun in Chitron Nabi without Ashanakaniti, why is Mr. Khudani Papon thank you so much?
+Andtel I.
+I looked.
+This guy was also saying I was hitting with sugar, Raylab Ibiba
+
+`s3 baseline`:
+> সাকিবলাও কেন ছিলসাকিব মোমো হুজুর ।
+রাজনীতি হুজুর এবং বুয়ে গেলোও আর বাঁচার কৃজলায় ডগলো করা দরকার আছে আল্লাহর মজারিদের আছাদ মুদের কাছে যদিবাসী লোদা বলবে উনি ওগানজিথা।
+বাংলার চরিত্র নিয়ে দেকবো তার সিলেজের চুল কেউ মনে হয় আর রিস্টে বোমনি এটাতো নারীর ষনীতি করে ভিডিও টা দেখছেন এক জনন আবার চোরশালা এ জানতে নিয়
+
+>Why was Shakibala also Shakib Momo sir.
+Politics, sir and brother-in-law, but it is necessary to dodge the misery of survival, if the people of Loda say that he is Oganjitha.
+I will look at the character of Bengal, I think the hair of his silage is someone, and in the wrist, Bomni is watching the video of a woman being sexually assaulted.
+
+`s1 optimal`:
 >“ভিডিও থেকে একটি গল্প্রান্ধু হয়।
 খানকিকুত্তার বাচ্চাহাজিয়ে যত্তকে বাস্তব যত দিন আসে সব কত বড় যু
 
@@ -421,7 +448,7 @@ We generate texts of different lengths for each of the 3 language models from se
 How big is all the real days when the bitch's baby hajiye yatake real
 
 
-`s2`:
+`s2 optimal`:
 >ভাইয়া আজ আবার ও  আসুনুটে যতখন এক খালেদায়েক,
 তিন পোড়ুন খেলা চিতবেতার বোদায় হায়রে বিপক্ষা, বাংলার দফাড়াতের ভুদির ছি শালা তোর বাগি নাস্তিক ভন্ড কুত্তার বাচ্চা আবাল বাঁকিয়ে তুই ইউটিউব লাথালী ও ছোট বেলা থেকে যেতে হয়তো এই রকম বং্গালের সনয়তি কে ধরে নিয়ে যাচ্ছে
 
@@ -429,7 +456,7 @@ How big is all the real days when the bitch's baby hajiye yatake real
 Alas for the three-burned game Chitbetar Boda, Alas for the opposition
 
 
-`s3`:
+`s3 optimal`:
 > সিনেমা টা ভালো করে সেইভাবে একটু টাইমে নাই ওয়ামত ও নাচেগেছে মিডিয়াতে লাখ টাকা কাওয়া কাদের বা সারা মোটাফ্যাপি তোমাকেন,,,আরতেই ঘুষখোরটা সাজল শি কি খায় আর মেয়েটার সাবস্ক্রাইব করছে একডিয়া আর দিন গ্রেপ্তন করলাম সবাই কিন পৃথিবীতে কত বড় আছে আমি বাংলাদেশের কত দিতে গিয়ে।
 আজ আমার মনে ছিলো না এখানে ডেল করে!
 যে খারাপ সালা
@@ -455,11 +482,14 @@ The original OOV rate for the Bengali language is 13.07%. Augmenting the vocabul
 
 ![figures/bn/task5_oov_rates.png](figures/bn/task5_oov_rates.png)
 
-| model\gen size | $10^1$ | $10^2$  | $10^3$ | $10^4$  | $10^5$ | $10^6$  | $10^7$  |
-|----------------|--------|---------|--------|---------|--------|---------|---------|
-| s1             | 13.07% | 13.07%  | 13.07% | 13.07%  | 12.93% |  12.26% | 10.62%  |
-| s2             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.80% |  11.78% | 9.88%   |
-| s3             | 13.07% | 13.07%  | 13.07% | 13.04%  | 12.78% |  11.69% | 9.71%   |
+| model\ gen. size | $10^1$ | $10^2$ | $10^3$ | $10^4$ | $10^5$ | $10^6$ | $10^7$ |
+|------------------|--------|--------|--------|--------|--------|--------|--------|
+| s1 baseline      | 13.76% | 13.76% | 13.76% | 13.74% | 13.59% | 13.06% | 11.89% |
+| s2 baseline      | 13.76% | 13.76% | 13.76% | 13.73% | 13.46% | 12.44% | 10.56% |
+| s3 baseline      | 13.76% | 13.76% | 13.76% | 13.72% | 13.43% | 12.24% | 10.28% |
+| s1 optimal       | 13.76% | 13.76% | 13.76% | 13.74% | 13.62% | 12.88% | 11.14% |
+| s2 optimal       | 13.76% | 13.76% | 13.76% | 13.73% | 13.47% | 12.37% | 10.35% |
+| s3 optimal       | 13.76% | 13.76% | 13.76% | 13.74% | 13.46% | 12.30% | 10.17% |
 
 
 #### Observations
