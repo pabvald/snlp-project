@@ -10,6 +10,9 @@ Id 2: 7010186 <br/>
 Email id 2: pava00001@stud.uni-saarland.de<br/> 
 
 
+- English: [01_English.ipynb](01_English.ipynb)
+- Bengali: [02_Bengali.ipynb](02_Bengali.ipynb)
+
 
 
 ## A. English 
