@@ -97,6 +97,13 @@ def _raw_preprocess_bengali(paragraphs: List):
 def text_preprocess(LANG: Language, text: str):
     """
     Basic pre-processing of a text by punctuation removal and lower-casing.
+
+    Parameters:
+        LANG: language configuration
+        text: to be preprocessed
+
+    Return: 
+        preprocessed text
     """
     if LANG.name == 'en':
         preprocessed_text = text.lower().translate(
@@ -120,4 +127,3 @@ def split_train_test(sentences: List, LANG: Language):
     """
     train, test = train_test_split(sentences, train_size=LANG.train_size, shuffle=True, random_state=42)
     return train, test
-
